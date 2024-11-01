@@ -1,0 +1,81 @@
+//DioFaceForm.cs
+
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace StarShapeForm
+{
+    public partial class DioFaceForm : Form
+    {
+        private Image dioFaceImage; // Переменная для хранения изображения лица Дио
+
+        public DioFaceForm()
+        {
+            InitializeComponent();
+            this.Text = "Dio's Face";
+            this.BackColor = Color.White; // Фоновый цвет формы
+            this.ClientSize = new Size(887, 1117); // Размер формы
+
+            // Загрузка изображения
+            dioFaceImage = Image.FromFile("dio_face.png"); 
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            // Рисуем изображение лица Дио
+            if (dioFaceImage != null)
+            {
+                // Устанавливаем позицию и размер изображения
+                int x = (this.ClientSize.Width - dioFaceImage.Width) / 2; // Центрирование по X
+                int y = (this.ClientSize.Height - dioFaceImage.Height) / 2; // Центрирование по Y
+
+                e.Graphics.DrawImage(dioFaceImage, x, y, dioFaceImage.Width, dioFaceImage.Height);
+            }
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            // Освобождаем ресурсы изображения при закрытии формы
+            if (dioFaceImage != null)
+            {
+                dioFaceImage.Dispose();
+            }
+            base.OnFormClosed(e);
+        }
+    }
+}
+
+//DioFaceForm.Designer.cs
+
+namespace StarShapeForm
+{
+    partial class DioFaceForm
+    {
+        private System.ComponentModel.IContainer components = null;
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // DioFaceForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(887, 1117);
+            this.Name = "DioFaceForm";
+            this.ResumeLayout(false);
+        }
+    }
+}
