@@ -1,0 +1,121 @@
+//StarForm.cs
+
+using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
+
+namespace StarShapeForm
+{
+    public partial class StarForm : Form
+    {
+        public StarForm()
+        {
+            InitializeComponent();
+            this.Text = "Star Shape";
+            this.BackColor = Color.Purple; // Фоновый цвет формы
+            this.FormBorderStyle = FormBorderStyle.None; // Убираем рамку формы
+            this.ClientSize = new Size(400, 400); // Размер формы
+        }
+
+        private void StarForm_Load(object sender, EventArgs e)
+        {
+            CreateStarShape();
+        }
+
+        private void CreateStarShape()
+        {
+            PointF[] points = new PointF[]
+            {
+                new PointF(200, 20),
+                new PointF(240, 150),
+                new PointF(380, 150),
+                new PointF(260, 230),
+                new PointF(300, 380),
+                new PointF(200, 300),
+                new PointF(100, 380),
+                new PointF(140, 230),
+                new PointF(20, 150),
+                new PointF(160, 150)
+            };
+
+            using (GraphicsPath path = new GraphicsPath())
+            {
+                path.AddPolygon(points);
+                this.Region = new Region(path);
+            }
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+        }
+
+        protected override void OnMouseClick(MouseEventArgs e)
+        {
+            base.OnMouseClick(e);
+            if (IsPointInStar(e.Location))
+            {
+                DioFaceForm dioFaceForm = new DioFaceForm();
+                dioFaceForm.Show();
+                this.Hide(); // Скрываем текущую форму вместо закрытия
+            }
+        }
+
+        private bool IsPointInStar(Point point)
+        {
+            using (GraphicsPath path = new GraphicsPath())
+            {
+                PointF[] points = new PointF[]
+                {
+                    new PointF(200, 20),
+                    new PointF(240, 150),
+                    new PointF(380, 150),
+                    new PointF(260, 230),
+                    new PointF(300, 380),
+                    new PointF(200, 300),
+                    new PointF(100, 380),
+                    new PointF(140, 230),
+                    new PointF(20, 150),
+                    new PointF(160, 150)
+                };
+                path.AddPolygon(points);
+                return path.IsVisible(point);
+            }
+        }
+    }
+}
+
+//StarForm.Designer.cs
+
+namespace StarShapeForm
+{
+    partial class StarForm
+    {
+        private System.ComponentModel.IContainer components = null;
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region 
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(400, 400);
+            this.Name = "StarForm";
+            this.Load += new System.EventHandler(this.StarForm_Load);
+            this.ResumeLayout(false);
+        }
+
+        #endregion
+    }
+}
